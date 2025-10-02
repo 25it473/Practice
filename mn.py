@@ -1,2 +1,2 @@
 print("Hello World1")
-print("This is first line")
+print("This is line")
