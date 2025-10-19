@@ -1,4 +1,4 @@
-//Program to add two 3*3 matrices into a third matrix
+//Program to add two matrices into a third matrix
 #include <stdio.h>
 
 int main() {
