@@ -3,7 +3,8 @@
 #include <math.h>
 
 int main() {
-    long int b, n, x, a=0;
+    long int b, n, x;
+    double a=0;
 
     printf("Enter a number: ");
     scanf("%ld",&n);
@@ -11,10 +12,10 @@ int main() {
 
     while(n>0) {
         x = n%10;
-        a = a + pow(x,3);
+        a =(double) a + pow(x,3);
         n = n/10;
     }
-    printf("\nSum of cube of each number is %ld",a);
+    printf("\nSum of cube of each number is %.0lf",a);
     if(a==b) {
         printf("\nIt is a armstrong number.");
     }
