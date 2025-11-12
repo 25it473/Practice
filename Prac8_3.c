@@ -1,4 +1,4 @@
-//Program to enter n number of hotel's name,address,grade,average room charge and room umber and display it in ascending order of grades.Also display hotel that are available below the charges entered by user.
+//Program to enter n number of hotel's name,address,grade,average room charge and room umber and display it.Also display hotels of given grade in order of charges.Also display hotel that are available below the charges entered by user.
 #include <stdio.h>
 #include <string.h>
 #define MAX 100
@@ -36,27 +36,37 @@ void display_hotel_data(struct hotel hotels[], int n) {
         printf("\n");
     }
 }
-void sort_hotels_by_grade(struct hotel hotels[], int n) {
-    struct hotel temp;
+void sort_hotels_by_charge(struct hotel hotels[], int n, char grade) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
-            if (hotels[i].grade > hotels[j].grade) {
-                temp = hotels[i];
+            if (hotels[i].grade == grade && hotels[j].grade == grade &&
+                hotels[i].avg_room_charge > hotels[j].avg_room_charge) {
+                struct hotel temp = hotels[i];
                 hotels[i] = hotels[j];
                 hotels[j] = temp;
             }
         }
     }
-}
-void display_hotels_below_charge(struct hotel hotels[], int n, float charge) {
-    printf("\nHotels with average room charge below %.2f:\n", charge);
+    printf("\nHotels of grade %c sorted by average room charge:\n", grade);
     for (int i = 0; i < n; i++) {
-        if (hotels[i].avg_room_charge < charge) {
-            printf("Name: %s, Address: %s, Grade: %c, Average Room Charge: %.2f, Number of Rooms: %d\n",
+        if (hotels[i].grade == grade) {
+            printf("\nName: %s\nAddress: %s\nGrade: %c\nAverage Room Charge: %.2f\nNumber of Rooms: %d\n",
                    hotels[i].name, hotels[i].address, hotels[i].grade,
                    hotels[i].avg_room_charge, hotels[i].room_number);
         }
     }
+}
+
+void display_hotels_below_charge(struct hotel hotels[], int n, float charge) {
+    printf("\nHotels with average room charge below %.2f:\n", charge);
+    for (int i = 0; i < n; i++) {
+        if (hotels[i].avg_room_charge < charge) {
+            printf("\nName: %s\nAddress: %s\nGrade: %c\nAverage Room Charge: %.2f\nNumber of Rooms: %d\n",
+                   hotels[i].name, hotels[i].address, hotels[i].grade,
+                   hotels[i].avg_room_charge, hotels[i].room_number);
+        }
+    }
+
 }
 int main() {
     int n;
@@ -64,9 +74,12 @@ int main() {
     printf("Enter the number of hotels: ");
     scanf("%d", &n);
     input_hotel_data(hotels, n);
-    sort_hotels_by_grade(hotels, n);
     display_hotel_data(hotels, n);
+    char grade;
+    printf("Enter a grade to sort hotels (A/B/C): ");
+    scanf(" %c", &grade);
     float charge;
+    sort_hotels_by_charge(hotels, n, grade);
     printf("Enter a charge to filter hotels: ");
     scanf("%f", &charge);
     display_hotels_below_charge(hotels, n, charge);
